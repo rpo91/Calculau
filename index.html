@@ -10,20 +10,21 @@
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         :root {
-            --gold: #C9A227;
-            --gold-light: #E2BB45;
-            --gold-dark: #9A7A1A;
-            --gold-muted: #F5E6B0;
-            --bg: #0F0F13;
-            --surface: #1A1A22;
-            --surface2: #222230;
-            --border: rgba(201,162,39,0.18);
-            --text: #F0EDE6;
-            --text-muted: #9A9690;
-            --red: #E05555;
-            --green: #4CAF7D;
-            --radius: 14px;
-            --shadow: 0 4px 24px rgba(0,0,0,0.45);
+            --gold:        #C9A227;
+            --gold-light:  #E2BB45;
+            --gold-dark:   #9A7A1A;
+            --gold-bg:     #FDF8EC;
+            --bg:          #F2F3F5;
+            --surface:     #FFFFFF;
+            --border:      #E3E5E8;
+            --border-gold: rgba(201,162,39,0.35);
+            --text:        #111111;
+            --text-muted:  #6B6B6B;
+            --text-light:  #9A9A9A;
+            --green:       #16A34A;
+            --red:         #DC2626;
+            --radius:      12px;
+            --shadow:      0 1px 4px rgba(0,0,0,0.07), 0 4px 16px rgba(0,0,0,0.06);
         }
 
         body {
@@ -36,47 +37,78 @@
 
         /* ── Header ── */
         header {
-            background: linear-gradient(135deg, #0F0F13 0%, #1c1810 60%, #211d0e 100%);
+            background: var(--surface);
             border-bottom: 1px solid var(--border);
-            padding: 28px 24px 22px;
-            text-align: center;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 62px;
             position: sticky;
             top: 0;
             z-index: 100;
-            backdrop-filter: blur(12px);
+            box-shadow: 0 1px 0 var(--border);
         }
 
         .logo {
-            font-size: 2rem;
+            font-size: 1.5rem;
             font-weight: 700;
-            letter-spacing: -0.5px;
             color: var(--text);
+            letter-spacing: -0.5px;
         }
 
         .logo .au {
             color: var(--gold);
-            background: linear-gradient(135deg, var(--gold-light), var(--gold-dark));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
 
-        .tagline {
-            font-size: 0.75rem;
+        .header-right {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-header {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            background: var(--surface);
             color: var(--text-muted);
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            margin-top: 4px;
+            transition: all 0.15s;
+        }
+
+        .btn-header:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+            background: var(--gold-bg);
+        }
+
+        .btn-header.primary {
+            background: var(--gold);
+            color: #fff;
+            border-color: var(--gold);
+            font-weight: 600;
+        }
+
+        .btn-header.primary:hover {
+            background: var(--gold-dark);
+            border-color: var(--gold-dark);
+            color: #fff;
         }
 
         /* ── Layout ── */
         .main {
-            max-width: 960px;
+            max-width: 900px;
             margin: 0 auto;
-            padding: 32px 20px;
+            padding: 28px 20px;
             display: flex;
             flex-direction: column;
-            gap: 24px;
+            gap: 20px;
         }
 
         /* ── Cards ── */
@@ -91,181 +123,183 @@
         .card-header {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 18px 24px;
+            gap: 10px;
+            padding: 14px 20px;
             border-bottom: 1px solid var(--border);
-            background: linear-gradient(90deg, rgba(201,162,39,0.07) 0%, transparent 100%);
         }
 
-        .card-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            display: flex;
+        .pill {
+            display: inline-flex;
             align-items: center;
-            justify-content: center;
-            font-size: 1.1rem;
-            flex-shrink: 0;
+            gap: 5px;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
         }
 
-        .card-icon.buy  { background: rgba(76,175,125,0.15); border: 1px solid rgba(76,175,125,0.3); }
-        .card-icon.sell { background: rgba(224,85,85,0.15);  border: 1px solid rgba(224,85,85,0.3); }
-        .card-icon.util { background: rgba(201,162,39,0.15); border: 1px solid rgba(201,162,39,0.3); }
+        .pill.buy  { background: #DCFCE7; color: #15803D; }
+        .pill.sell { background: #FEE2E2; color: #B91C1C; }
+        .pill.util { background: var(--gold-bg); color: var(--gold-dark); border: 1px solid var(--border-gold); }
 
         .card-title {
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 600;
             color: var(--text);
         }
 
-        .card-body { padding: 22px 24px; }
+        .card-body { padding: 20px; }
 
         /* ── Form controls ── */
-        .field { margin-bottom: 18px; }
+        .field { margin-bottom: 16px; }
+        .field:last-child { margin-bottom: 0; }
 
         .field label {
             display: block;
-            font-size: 0.78rem;
+            font-size: 0.75rem;
             font-weight: 500;
             color: var(--text-muted);
             text-transform: uppercase;
-            letter-spacing: 0.08em;
-            margin-bottom: 7px;
+            letter-spacing: 0.07em;
+            margin-bottom: 6px;
         }
 
         select, input[type="number"] {
             width: 100%;
-            background: var(--surface2);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 9px;
-            padding: 10px 14px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 9px 12px;
             color: var(--text);
             font-family: 'Inter', sans-serif;
-            font-size: 0.9rem;
+            font-size: 0.875rem;
             outline: none;
-            transition: border-color 0.2s, box-shadow 0.2s;
+            transition: border-color 0.15s, box-shadow 0.15s;
             appearance: none;
             -webkit-appearance: none;
         }
 
         select {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239A9690' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236B6B6B' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
-            background-position: right 14px center;
-            padding-right: 36px;
+            background-position: right 12px center;
+            padding-right: 34px;
             cursor: pointer;
         }
 
         select:focus, input[type="number"]:focus {
             border-color: var(--gold);
-            box-shadow: 0 0 0 3px rgba(201,162,39,0.12);
+            box-shadow: 0 0 0 3px rgba(201,162,39,0.1);
         }
 
-        input[type="number"]::placeholder { color: rgba(154,150,144,0.5); }
-
+        input[type="number"]::placeholder { color: var(--text-light); }
         input[type="number"]::-webkit-inner-spin-button,
         input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
 
         /* ── Table ── */
-        .table-wrap { overflow-x: auto; margin-top: 4px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.06); }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.85rem;
+        .table-wrap {
+            overflow-x: auto;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            margin-top: 4px;
         }
 
+        table { width: 100%; border-collapse: collapse; font-size: 0.855rem; }
+
         thead th {
-            background: rgba(201,162,39,0.1);
-            color: var(--gold);
+            background: var(--gold-bg);
+            color: var(--gold-dark);
             font-weight: 600;
-            font-size: 0.72rem;
+            font-size: 0.7rem;
             text-transform: uppercase;
             letter-spacing: 0.07em;
-            padding: 11px 10px;
-            border-bottom: 1px solid var(--border);
+            padding: 10px 10px;
+            border-bottom: 1px solid var(--border-gold);
             text-align: center;
             white-space: nowrap;
         }
 
         tbody td {
             padding: 8px 8px;
-            border-bottom: 1px solid rgba(255,255,255,0.04);
+            border-bottom: 1px solid var(--border);
             text-align: center;
             color: var(--text);
         }
 
         tbody tr:last-child td { border-bottom: none; }
-
-        tbody tr:hover td { background: rgba(255,255,255,0.02); }
+        tbody tr:hover td { background: #FAFAFA; }
 
         .row-num {
-            width: 32px;
             font-weight: 600;
             color: var(--gold);
             font-size: 0.8rem;
+            width: 30px;
         }
 
         tbody td input[type="number"] {
-            border-radius: 7px;
-            padding: 8px 10px;
-            font-size: 0.85rem;
+            border-radius: 6px;
+            padding: 7px 8px;
+            font-size: 0.83rem;
             text-align: center;
+            border-color: var(--border);
+            background: #FAFAFA;
         }
+
+        tbody td input[type="number"]:focus { background: #fff; }
 
         .fine-grams-cell {
             font-weight: 600;
-            color: var(--gold-light);
-            font-size: 0.88rem;
+            color: var(--gold-dark);
         }
 
         tfoot td {
-            background: rgba(201,162,39,0.07);
-            border-top: 1px solid var(--border);
+            background: #FAFAFA;
+            border-top: 2px solid var(--border);
             font-weight: 600;
-            padding: 11px 10px;
+            padding: 10px 10px;
             text-align: center;
             font-size: 0.85rem;
-            color: var(--text);
         }
 
-        tfoot .label-cell { color: var(--gold); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; }
+        .tfoot-label { color: var(--gold-dark); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; }
 
-        /* ── Utilidad cards ── */
-        .profit-grid {
+        /* ── Profit section ── */
+        .profit-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 16px;
+            gap: 14px;
             margin-bottom: 20px;
         }
 
-        .profit-display {
-            background: var(--surface2);
-            border: 1px solid rgba(255,255,255,0.07);
-            border-radius: 11px;
-            padding: 18px 20px;
+        .profit-box {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 16px 18px;
             text-align: center;
+            background: #FAFAFA;
         }
 
-        .profit-display .pd-label {
-            font-size: 0.72rem;
-            font-weight: 500;
+        .profit-box .pb-label {
+            font-size: 0.7rem;
+            font-weight: 600;
             color: var(--text-muted);
             text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 8px;
+            letter-spacing: 0.09em;
+            margin-bottom: 6px;
         }
 
-        .profit-display .pd-value {
-            font-size: 1.4rem;
+        .profit-box .pb-value {
+            font-size: 1.35rem;
             font-weight: 700;
             letter-spacing: -0.5px;
-            transition: color 0.3s;
+            color: var(--text-muted);
+            transition: color 0.25s;
         }
 
-        .pd-value.positive { color: var(--green); }
-        .pd-value.negative { color: var(--red); }
-        .pd-value.neutral  { color: var(--text-muted); }
+        .pb-value.pos { color: var(--green); }
+        .pb-value.neg { color: var(--red); }
 
         .costs-grid {
             display: grid;
@@ -273,52 +307,208 @@
             gap: 12px;
         }
 
-        .cost-field label { font-size: 0.75rem; }
+        /* ── Bottom actions ── */
+        .actions-row {
+            display: flex;
+            gap: 10px;
+        }
 
-        /* ── Clear button ── */
-        .btn-clear {
+        .btn-action {
+            flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            width: 100%;
-            padding: 14px;
-            background: transparent;
-            border: 1px solid rgba(201,162,39,0.35);
+            gap: 7px;
+            padding: 12px;
             border-radius: var(--radius);
-            color: var(--gold);
             font-family: 'Inter', sans-serif;
-            font-size: 0.9rem;
-            font-weight: 600;
+            font-size: 0.875rem;
+            font-weight: 500;
             cursor: pointer;
-            letter-spacing: 0.04em;
-            transition: background 0.2s, border-color 0.2s;
+            transition: all 0.15s;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--text-muted);
         }
 
-        .btn-clear:hover {
-            background: rgba(201,162,39,0.08);
+        .btn-action:hover { border-color: #ccc; color: var(--text); background: #FAFAFA; }
+
+        .btn-action.save {
+            background: var(--gold);
             border-color: var(--gold);
+            color: #fff;
+            font-weight: 600;
         }
+
+        .btn-action.save:hover { background: var(--gold-dark); border-color: var(--gold-dark); }
+
+        /* ── History section ── */
+        #historySection { display: none; }
+
+        .history-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .history-header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .history-count {
+            font-size: 0.72rem;
+            font-weight: 600;
+            background: var(--border);
+            color: var(--text-muted);
+            border-radius: 20px;
+            padding: 2px 8px;
+        }
+
+        .btn-clear-history {
+            font-size: 0.75rem;
+            color: var(--red);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: background 0.15s;
+        }
+
+        .btn-clear-history:hover { background: #FEE2E2; }
+
+        .history-list { padding: 12px 16px; display: flex; flex-direction: column; gap: 8px; }
+
+        .history-item {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px 16px;
+            background: #FAFAFA;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            transition: box-shadow 0.15s;
+        }
+
+        .history-item:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
+
+        .history-date {
+            font-size: 0.73rem;
+            color: var(--text-light);
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .history-vals {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .hv {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .hv-label {
+            font-size: 0.68rem;
+            font-weight: 600;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .hv-val {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .hv-val.pos { color: var(--green); }
+        .hv-val.neg { color: var(--red); }
+
+        .btn-del {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-light);
+            font-size: 1.1rem;
+            line-height: 1;
+            padding: 2px 4px;
+            border-radius: 4px;
+            transition: color 0.15s, background 0.15s;
+            flex-shrink: 0;
+        }
+
+        .btn-del:hover { color: var(--red); background: #FEE2E2; }
 
         /* ── Empty state ── */
         .empty-state {
             text-align: center;
-            padding: 28px 16px;
-            color: var(--text-muted);
+            padding: 24px;
+            color: var(--text-light);
             font-size: 0.85rem;
+        }
+
+        /* ── Toast ── */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: #111;
+            color: #fff;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 0.84rem;
+            font-weight: 500;
+            opacity: 0;
+            transition: opacity 0.2s, transform 0.2s;
+            pointer-events: none;
+            z-index: 999;
+            white-space: nowrap;
+        }
+
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+        /* ── Print styles ── */
+        @media print {
+            body { background: #fff; padding: 0; font-size: 12px; }
+            header { position: static; box-shadow: none; border-bottom: 2px solid #C9A227; }
+            .header-right, .btn-action, .actions-row, #historySection { display: none !important; }
+            .card { box-shadow: none; border: 1px solid #ccc; break-inside: avoid; }
+            .main { padding: 16px 0; gap: 14px; max-width: 100%; }
+            .field { display: none; }
+            .table-wrap { border: 1px solid #ccc; }
+            select { display: none; }
+            .print-hide { display: none !important; }
+            .profit-box { border: 1px solid #ccc; background: #fff; }
+            thead th { background: #FDF8EC !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
         }
 
         /* ── Responsive ── */
         @media (max-width: 600px) {
-            .main { padding: 20px 14px; gap: 18px; }
-            .card-body { padding: 16px 14px; }
-            .card-header { padding: 14px 16px; }
-            .profit-grid { grid-template-columns: 1fr; }
+            header { padding: 0 14px; }
+            .logo { font-size: 1.3rem; }
+            .btn-header span { display: none; }
+            .main { padding: 16px 12px; gap: 14px; }
+            .card-body { padding: 14px; }
+            .card-header { padding: 12px 14px; }
+            .profit-row { grid-template-columns: 1fr; }
             .costs-grid { grid-template-columns: 1fr; }
-            .logo { font-size: 1.6rem; }
-            thead th { font-size: 0.65rem; padding: 9px 6px; }
-            tbody td { padding: 6px 5px; }
-            tbody td input[type="number"] { font-size: 0.78rem; padding: 6px 6px; }
+            .actions-row { flex-direction: column; }
+            thead th { font-size: 0.63rem; padding: 8px 5px; }
+            tbody td { padding: 6px 4px; }
+            tbody td input[type="number"] { font-size: 0.78rem; padding: 6px 5px; }
+            .history-vals { gap: 12px; }
         }
     </style>
 </head>
@@ -326,7 +516,12 @@
 
 <header>
     <div class="logo">Calcul<span class="au">Au</span></div>
-    <div class="tagline">Calculadora de Oro</div>
+    <div class="header-right">
+        <button class="btn-header" onclick="printPage()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+            <span>Imprimir</span>
+        </button>
+    </div>
 </header>
 
 <div class="main">
@@ -334,13 +529,11 @@
     <!-- Compra -->
     <div class="card">
         <div class="card-header">
-            <div class="card-icon buy">⬇️</div>
-            <div>
-                <div class="card-title">Compra</div>
-            </div>
+            <span class="pill buy">↓ Compra</span>
+            <span class="card-title">Barras compradas</span>
         </div>
         <div class="card-body">
-            <div class="field">
+            <div class="field print-hide">
                 <label for="purchaseCount">Cantidad de barras</label>
                 <select id="purchaseCount" onchange="generateTable('purchase')">
                     <option value="0">Seleccionar cantidad...</option>
@@ -360,13 +553,11 @@
     <!-- Venta -->
     <div class="card">
         <div class="card-header">
-            <div class="card-icon sell">⬆️</div>
-            <div>
-                <div class="card-title">Venta</div>
-            </div>
+            <span class="pill sell">↑ Venta</span>
+            <span class="card-title">Barras vendidas</span>
         </div>
         <div class="card-body">
-            <div class="field">
+            <div class="field print-hide">
                 <label for="saleCount">Cantidad de barras</label>
                 <select id="saleCount" onchange="generateTable('sale')">
                     <option value="0">Seleccionar cantidad...</option>
@@ -386,37 +577,34 @@
     <!-- Utilidad -->
     <div class="card">
         <div class="card-header">
-            <div class="card-icon util">✦</div>
-            <div>
-                <div class="card-title">Utilidad</div>
-            </div>
+            <span class="pill util">✦ Utilidad</span>
+            <span class="card-title">Resultado de la operación</span>
         </div>
         <div class="card-body">
-            <div class="profit-grid">
-                <div class="profit-display">
-                    <div class="pd-label">Utilidad Bruta</div>
-                    <div class="pd-value neutral" id="grossProfit">$0.00</div>
+            <div class="profit-row">
+                <div class="profit-box">
+                    <div class="pb-label">Utilidad Bruta</div>
+                    <div class="pb-value" id="grossProfit">$0.00</div>
                 </div>
-                <div class="profit-display">
-                    <div class="pd-label">Utilidad Neta</div>
-                    <div class="pd-value neutral" id="netProfit">$0.00</div>
+                <div class="profit-box">
+                    <div class="pb-label">Utilidad Neta</div>
+                    <div class="pb-value" id="netProfit">$0.00</div>
                 </div>
             </div>
-
             <div class="costs-grid">
-                <div class="cost-field field">
+                <div class="field">
                     <label for="meltingCost">Costo de Fundición</label>
                     <input type="number" id="meltingCost" oninput="updateNetProfit()" placeholder="0">
                 </div>
-                <div class="cost-field field">
+                <div class="field">
                     <label for="analysisCost">Costo de Análisis</label>
                     <input type="number" id="analysisCost" oninput="updateNetProfit()" placeholder="0">
                 </div>
-                <div class="cost-field field">
+                <div class="field">
                     <label for="transportCost">Costo de Transporte</label>
                     <input type="number" id="transportCost" oninput="updateNetProfit()" placeholder="0">
                 </div>
-                <div class="cost-field field">
+                <div class="field">
                     <label for="commissionCost">Comisiones</label>
                     <input type="number" id="commissionCost" oninput="updateNetProfit()" placeholder="0">
                 </div>
@@ -424,21 +612,42 @@
         </div>
     </div>
 
-    <button class="btn-clear" onclick="clearFields()">
-        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M1 1l13 13M14 1L1 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-        </svg>
-        Limpiar campos
-    </button>
+    <!-- Actions -->
+    <div class="actions-row print-hide">
+        <button class="btn-action save" onclick="saveOperation()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+            Guardar operación
+        </button>
+        <button class="btn-action" onclick="clearFields()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+            Limpiar campos
+        </button>
+    </div>
+
+    <!-- Historial -->
+    <div class="card" id="historySection">
+        <div class="history-header">
+            <div class="history-header-left">
+                <span class="card-title">Historial</span>
+                <span class="history-count" id="historyCount">0</span>
+            </div>
+            <button class="btn-clear-history" onclick="clearHistory()">Borrar todo</button>
+        </div>
+        <div class="history-list" id="historyList"></div>
+    </div>
 
 </div>
 
+<div class="toast" id="toast"></div>
+
 <script>
     const fmt = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 2 });
+    const HISTORY_KEY = 'calculau_history';
 
+    // ── Table generation ──────────────────────────────────────────
     function generateTable(type) {
         const count = parseInt(document.getElementById(`${type}Count`).value);
-        const wrap = document.getElementById(`${type}TableWrap`);
+        const wrap  = document.getElementById(`${type}TableWrap`);
 
         if (!count) {
             wrap.innerHTML = '<div class="empty-state">Selecciona la cantidad de barras para comenzar</div>';
@@ -446,29 +655,24 @@
             return;
         }
 
-        let html = `<table id="${type}Table">
-            <thead><tr>
-                <th>#</th>
-                <th>Gramos Brutos</th>
-                <th>Pureza (%)</th>
-                <th>Gramos Finos</th>
-                <th>Precio / g fino</th>
-            </tr></thead>
-            <tbody>`;
-
+        let rows = '';
         for (let i = 1; i <= count; i++) {
-            html += `<tr>
+            rows += `<tr>
                 <td class="row-num">${i}</td>
-                <td><input type="number" id="${type}Grams${i}" placeholder="g" min="0" oninput="updateTotals('${type}')"></td>
+                <td><input type="number" id="${type}Grams${i}"  placeholder="g"  min="0" oninput="updateTotals('${type}')"></td>
                 <td><input type="number" id="${type}Purity${i}" placeholder="%" min="0" max="100" oninput="updateTotals('${type}')"></td>
                 <td class="fine-grams-cell" id="${type}FineGrams${i}">—</td>
-                <td><input type="number" id="${type}Price${i}" placeholder="$" min="0" oninput="updateTotals('${type}')"></td>
+                <td><input type="number" id="${type}Price${i}"  placeholder="$"  min="0" oninput="updateTotals('${type}')"></td>
             </tr>`;
         }
 
-        html += `</tbody>
+        wrap.innerHTML = `<table id="${type}Table">
+            <thead><tr>
+                <th>#</th><th>Gramos Brutos</th><th>Pureza (%)</th><th>Gramos Finos</th><th>Precio / g fino</th>
+            </tr></thead>
+            <tbody>${rows}</tbody>
             <tfoot><tr>
-                <td colspan="1" class="label-cell">Total</td>
+                <td class="tfoot-label">Total</td>
                 <td id="${type}TotalGrams">—</td>
                 <td id="${type}AveragePurity">—</td>
                 <td id="${type}TotalFineGrams">—</td>
@@ -476,22 +680,22 @@
             </tr></tfoot>
         </table>`;
 
-        wrap.innerHTML = html;
         updateTotals(type);
     }
 
+    // ── Calculations ──────────────────────────────────────────────
     function updateTotals(type) {
         const count = parseInt(document.getElementById(`${type}Count`).value) || 0;
         let totalGrams = 0, totalFineGrams = 0, totalValue = 0, weightedPurity = 0;
 
         for (let i = 1; i <= count; i++) {
-            const grams   = parseFloat(document.getElementById(`${type}Grams${i}`)?.value)  || 0;
-            const purity  = parseFloat(document.getElementById(`${type}Purity${i}`)?.value)  || 0;
-            const price   = parseFloat(document.getElementById(`${type}Price${i}`)?.value)   || 0;
+            const grams     = parseFloat(document.getElementById(`${type}Grams${i}`)?.value)  || 0;
+            const purity    = parseFloat(document.getElementById(`${type}Purity${i}`)?.value)  || 0;
+            const price     = parseFloat(document.getElementById(`${type}Price${i}`)?.value)   || 0;
             const fineGrams = round(grams * (purity / 100), 2);
 
             const cell = document.getElementById(`${type}FineGrams${i}`);
-            if (cell) cell.textContent = grams || purity ? fineGrams : '—';
+            if (cell) cell.textContent = (grams || purity) ? fineGrams : '—';
 
             totalGrams     += grams;
             totalFineGrams += fineGrams;
@@ -501,74 +705,168 @@
 
         const avgPurity = totalGrams > 0 ? (weightedPurity / totalGrams) : 0;
 
-        const tg  = document.getElementById(`${type}TotalGrams`);
-        const tap = document.getElementById(`${type}AveragePurity`);
-        const tfg = document.getElementById(`${type}TotalFineGrams`);
-        const tv  = document.getElementById(`${type}TotalValue`);
-
-        if (tg)  tg.textContent  = totalGrams     ? round(totalGrams, 2)     : '—';
-        if (tap) tap.textContent = totalGrams      ? `${round(avgPurity, 2)}%` : '—';
-        if (tfg) tfg.textContent = totalFineGrams  ? round(totalFineGrams, 2) : '—';
-        if (tv)  tv.textContent  = totalValue      ? fmt.format(round(totalValue, 2)) : '—';
+        setText(`${type}TotalGrams`,    totalGrams     ? round(totalGrams, 2)      : '—');
+        setText(`${type}AveragePurity`, totalGrams     ? `${round(avgPurity, 2)}%` : '—');
+        setText(`${type}TotalFineGrams`,totalFineGrams ? round(totalFineGrams, 2)  : '—');
+        setText(`${type}TotalValue`,    totalValue     ? fmt.format(round(totalValue, 2)) : '—');
 
         calculateProfit();
     }
 
     function calculateProfit() {
-        const rawPurchase = document.getElementById('purchaseTotalValue')?.textContent ?? '';
-        const rawSale     = document.getElementById('saleTotalValue')?.textContent ?? '';
-
-        const purchaseVal = parseFloat(rawPurchase.replace(/[^0-9.-]/g, '')) || 0;
-        const saleVal     = parseFloat(rawSale.replace(/[^0-9.-]/g, ''))     || 0;
+        const purchaseVal = parseValue(document.getElementById('purchaseTotalValue')?.textContent);
+        const saleVal     = parseValue(document.getElementById('saleTotalValue')?.textContent);
         const gross       = saleVal - purchaseVal;
 
         const el = document.getElementById('grossProfit');
         el.textContent = fmt.format(gross);
-        setValueColor(el, gross);
+        setColor(el, gross);
 
         updateNetProfit();
     }
 
     function updateNetProfit() {
-        const rawGross   = document.getElementById('grossProfit').textContent;
-        const gross      = parseFloat(rawGross.replace(/[^0-9.-]/g, '')) || 0;
+        const gross      = parseValue(document.getElementById('grossProfit').textContent);
         const melting    = parseFloat(document.getElementById('meltingCost').value)    || 0;
         const analysis   = parseFloat(document.getElementById('analysisCost').value)   || 0;
         const transport  = parseFloat(document.getElementById('transportCost').value)  || 0;
         const commission = parseFloat(document.getElementById('commissionCost').value) || 0;
-        const net = gross - (melting + analysis + transport + commission);
+        const net        = gross - (melting + analysis + transport + commission);
 
         const el = document.getElementById('netProfit');
         el.textContent = fmt.format(net);
-        setValueColor(el, net);
+        setColor(el, net);
     }
 
-    function setValueColor(el, value) {
-        el.classList.remove('positive', 'negative', 'neutral');
-        if (value > 0)      el.classList.add('positive');
-        else if (value < 0) el.classList.add('negative');
-        else                el.classList.add('neutral');
+    // ── History ───────────────────────────────────────────────────
+    function saveOperation() {
+        const purchaseTotal = parseValue(document.getElementById('purchaseTotalValue')?.textContent);
+        const saleTotal     = parseValue(document.getElementById('saleTotalValue')?.textContent);
+        const grossProfit   = parseValue(document.getElementById('grossProfit').textContent);
+        const netProfit     = parseValue(document.getElementById('netProfit').textContent);
+
+        if (!purchaseTotal && !saleTotal) {
+            showToast('Ingresa datos antes de guardar');
+            return;
+        }
+
+        const entry = {
+            id: Date.now(),
+            date: new Date().toLocaleString('es-CO', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }),
+            purchaseBars:  parseInt(document.getElementById('purchaseCount').value) || 0,
+            saleBars:      parseInt(document.getElementById('saleCount').value)     || 0,
+            purchaseTotal,
+            saleTotal,
+            grossProfit,
+            netProfit,
+        };
+
+        const history = getHistory();
+        history.unshift(entry);
+        if (history.length > 50) history.pop();
+        localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+
+        renderHistory();
+        showToast('Operación guardada');
     }
 
-    function round(v, d) {
-        return Math.round(v * Math.pow(10, d)) / Math.pow(10, d);
+    function deleteEntry(id) {
+        const history = getHistory().filter(e => e.id !== id);
+        localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+        renderHistory();
     }
 
+    function clearHistory() {
+        if (!confirm('¿Borrar todo el historial?')) return;
+        localStorage.removeItem(HISTORY_KEY);
+        renderHistory();
+    }
+
+    function getHistory() {
+        try { return JSON.parse(localStorage.getItem(HISTORY_KEY)) || []; }
+        catch { return []; }
+    }
+
+    function renderHistory() {
+        const history = getHistory();
+        const section = document.getElementById('historySection');
+        const list    = document.getElementById('historyList');
+        const count   = document.getElementById('historyCount');
+
+        if (!history.length) { section.style.display = 'none'; return; }
+
+        section.style.display = 'block';
+        count.textContent = history.length;
+
+        list.innerHTML = history.map(e => `
+            <div class="history-item">
+                <div style="flex:1;min-width:0">
+                    <div class="history-date">${e.date} · ${e.purchaseBars}↓ ${e.saleBars}↑ barras</div>
+                    <div class="history-vals">
+                        <div class="hv">
+                            <span class="hv-label">Compra</span>
+                            <span class="hv-val">${fmt.format(e.purchaseTotal)}</span>
+                        </div>
+                        <div class="hv">
+                            <span class="hv-label">Venta</span>
+                            <span class="hv-val">${fmt.format(e.saleTotal)}</span>
+                        </div>
+                        <div class="hv">
+                            <span class="hv-label">Utilidad Neta</span>
+                            <span class="hv-val ${e.netProfit > 0 ? 'pos' : e.netProfit < 0 ? 'neg' : ''}">${fmt.format(e.netProfit)}</span>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn-del" onclick="deleteEntry(${e.id})" title="Eliminar">×</button>
+            </div>
+        `).join('');
+    }
+
+    // ── Print ─────────────────────────────────────────────────────
+    function printPage() {
+        window.print();
+    }
+
+    // ── Clear all ─────────────────────────────────────────────────
     function clearFields() {
-        ['purchaseCount', 'saleCount'].forEach(id => document.getElementById(id).value = 0);
-        ['purchaseTableWrap', 'saleTableWrap'].forEach(id => {
-            document.getElementById(id).innerHTML = '<div class="empty-state">Selecciona la cantidad de barras para comenzar</div>';
-        });
-        ['meltingCost', 'analysisCost', 'transportCost', 'commissionCost'].forEach(id => {
+        document.getElementById('purchaseCount').value = 0;
+        document.getElementById('saleCount').value     = 0;
+
+        document.getElementById('purchaseTableWrap').innerHTML = '<div class="empty-state">Selecciona la cantidad de barras para comenzar</div>';
+        document.getElementById('saleTableWrap').innerHTML     = '<div class="empty-state">Selecciona la cantidad de barras para comenzar</div>';
+
+        ['meltingCost','analysisCost','transportCost','commissionCost'].forEach(id => {
             document.getElementById(id).value = '';
         });
-        ['grossProfit', 'netProfit'].forEach(id => {
+
+        ['grossProfit','netProfit'].forEach(id => {
             const el = document.getElementById(id);
             el.textContent = '$0.00';
-            el.classList.remove('positive', 'negative');
-            el.classList.add('neutral');
+            el.classList.remove('pos','neg');
         });
     }
+
+    // ── Helpers ───────────────────────────────────────────────────
+    function round(v, d) { return Math.round(v * 10**d) / 10**d; }
+    function parseValue(s) { return parseFloat((s || '').replace(/[^0-9.-]/g, '')) || 0; }
+    function setText(id, val) { const el = document.getElementById(id); if (el) el.textContent = val; }
+    function setColor(el, v) {
+        el.classList.remove('pos','neg');
+        if (v > 0) el.classList.add('pos');
+        else if (v < 0) el.classList.add('neg');
+    }
+
+    let toastTimer;
+    function showToast(msg) {
+        const t = document.getElementById('toast');
+        t.textContent = msg;
+        t.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
+    }
+
+    // Init
+    renderHistory();
 </script>
 </body>
 </html>
