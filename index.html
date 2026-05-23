@@ -2,384 +2,573 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=0.7">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CalculAu</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            box-sizing: border-box;
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --gold: #C9A227;
+            --gold-light: #E2BB45;
+            --gold-dark: #9A7A1A;
+            --gold-muted: #F5E6B0;
+            --bg: #0F0F13;
+            --surface: #1A1A22;
+            --surface2: #222230;
+            --border: rgba(201,162,39,0.18);
+            --text: #F0EDE6;
+            --text-muted: #9A9690;
+            --red: #E05555;
+            --green: #4CAF7D;
+            --radius: 14px;
+            --shadow: 0 4px 24px rgba(0,0,0,0.45);
         }
 
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            padding: 20px;
-            background-color: #f4f4f9;
-            color: black;
-            font-size: 16px;
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding-bottom: 60px;
         }
 
-        .header {
+        /* ── Header ── */
+        header {
+            background: linear-gradient(135deg, #0F0F13 0%, #1c1810 60%, #211d0e 100%);
+            border-bottom: 1px solid var(--border);
+            padding: 28px 24px 22px;
             text-align: center;
-            margin-bottom: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(12px);
         }
 
         .logo {
-            font-size: 36px;
-            font-weight: bold;
-            color: #B8860B;
-            font-family: 'Arial', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: var(--text);
         }
 
-        .logo span {
-            color: #8B5A2B;
+        .logo .au {
+            color: var(--gold);
+            background: linear-gradient(135deg, var(--gold-light), var(--gold-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .calculator {
-            max-width: 800px;
+        .tagline {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+
+        /* ── Layout ── */
+        .main {
+            max-width: 960px;
             margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-            margin-bottom: 30px;
+            padding: 32px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* ── Cards ── */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 18px 24px;
+            border-bottom: 1px solid var(--border);
+            background: linear-gradient(90deg, rgba(201,162,39,0.07) 0%, transparent 100%);
+        }
+
+        .card-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .card-icon.buy  { background: rgba(76,175,125,0.15); border: 1px solid rgba(76,175,125,0.3); }
+        .card-icon.sell { background: rgba(224,85,85,0.15);  border: 1px solid rgba(224,85,85,0.3); }
+        .card-icon.util { background: rgba(201,162,39,0.15); border: 1px solid rgba(201,162,39,0.3); }
+
+        .card-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .card-body { padding: 22px 24px; }
+
+        /* ── Form controls ── */
+        .field { margin-bottom: 18px; }
+
+        .field label {
+            display: block;
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 7px;
+        }
+
+        select, input[type="number"] {
             width: 100%;
+            background: var(--surface2);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 9px;
+            padding: 10px 14px;
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            appearance: none;
+            -webkit-appearance: none;
         }
 
-        .calculator h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 1.2em;
+        select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239A9690' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            padding-right: 36px;
+            cursor: pointer;
         }
 
-        .form-group {
-            margin-bottom: 15px;
+        select:focus, input[type="number"]:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(201,162,39,0.12);
         }
 
-        label {
-            margin-right: 10px;
-            font-weight: bold;
-            font-size: 14px;
-        }
+        input[type="number"]::placeholder { color: rgba(154,150,144,0.5); }
 
-        select, input {
-            padding: 8px;
-            font-size: 14px;
-            width: 100%;
-            margin-bottom: 10px;
-        }
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
+
+        /* ── Table ── */
+        .table-wrap { overflow-x: auto; margin-top: 4px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.06); }
 
         table {
             width: 100%;
             border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        thead th {
+            background: rgba(201,162,39,0.1);
+            color: var(--gold);
+            font-weight: 600;
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            padding: 11px 10px;
+            border-bottom: 1px solid var(--border);
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        tbody td {
+            padding: 8px 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            text-align: center;
+            color: var(--text);
+        }
+
+        tbody tr:last-child td { border-bottom: none; }
+
+        tbody tr:hover td { background: rgba(255,255,255,0.02); }
+
+        .row-num {
+            width: 32px;
+            font-weight: 600;
+            color: var(--gold);
+            font-size: 0.8rem;
+        }
+
+        tbody td input[type="number"] {
+            border-radius: 7px;
+            padding: 8px 10px;
+            font-size: 0.85rem;
+            text-align: center;
+        }
+
+        .fine-grams-cell {
+            font-weight: 600;
+            color: var(--gold-light);
+            font-size: 0.88rem;
+        }
+
+        tfoot td {
+            background: rgba(201,162,39,0.07);
+            border-top: 1px solid var(--border);
+            font-weight: 600;
+            padding: 11px 10px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text);
+        }
+
+        tfoot .label-cell { color: var(--gold); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; }
+
+        /* ── Utilidad cards ── */
+        .profit-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
             margin-bottom: 20px;
-            table-layout: fixed;
         }
 
-        table th, table td {
-            border: 1px solid #ccc;
-            padding: 6px;
+        .profit-display {
+            background: var(--surface2);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 11px;
+            padding: 18px 20px;
             text-align: center;
-            word-wrap: break-word;
         }
 
-        table th {
-            background-color: #B8860B;
-            color: white;
+        .profit-display .pd-label {
+            font-size: 0.72rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 8px;
         }
 
-        table tfoot {
-            font-weight: bold;
-            background-color: #f4f4f9;
+        .profit-display .pd-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            transition: color 0.3s;
         }
 
-        .result {
-            font-size: 16px;
-            margin-top: 15px;
-            text-align: center;
-            font-weight: bold;
+        .pd-value.positive { color: var(--green); }
+        .pd-value.negative { color: var(--red); }
+        .pd-value.neutral  { color: var(--text-muted); }
+
+        .costs-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
         }
 
-        button {
+        .cost-field label { font-size: 0.75rem; }
+
+        /* ── Clear button ── */
+        .btn-clear {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
             width: 100%;
-            padding: 12px;
-            background-color: #B8860B;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 16px;
+            padding: 14px;
+            background: transparent;
+            border: 1px solid rgba(201,162,39,0.35);
+            border-radius: var(--radius);
+            color: var(--gold);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
             cursor: pointer;
+            letter-spacing: 0.04em;
+            transition: background 0.2s, border-color 0.2s;
         }
 
-        button:hover {
-            background-color: #8B5A2B;
+        .btn-clear:hover {
+            background: rgba(201,162,39,0.08);
+            border-color: var(--gold);
         }
 
-        .clear-btn {
-            background-color: #B8860B;
-            margin-top: 20px;
+        /* ── Empty state ── */
+        .empty-state {
+            text-align: center;
+            padding: 28px 16px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
         }
 
-        .clear-btn:hover {
-            background-color: #8B5A2B;
-        }
-
-        @media (max-width: 768px) {
-            body {
-                font-size: 14px;
-            }
-
-            .calculator {
-                padding: 15px;
-            }
-
-            .calculator h2 {
-                font-size: 1em;
-            }
-
-            label {
-                font-size: 12px;
-            }
-
-            select, input {
-                padding: 6px;
-                font-size: 12px;
-            }
-
-            table th, table td {
-                font-size: 12px;
-                padding: 5px;
-            }
-
-            .result {
-                font-size: 14px;
-            }
-
-            button {
-                padding: 10px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            body {
-                font-size: 12px;
-            }
-
-            select, input {
-                font-size: 10px;
-            }
-
-            table th, table td {
-                font-size: 10px;
-                padding: 4px;
-            }
-
-            button {
-                font-size: 14px;
-                padding: 8px;
-            }
-
-            .clear-btn {
-                font-size: 14px;
-            }
+        /* ── Responsive ── */
+        @media (max-width: 600px) {
+            .main { padding: 20px 14px; gap: 18px; }
+            .card-body { padding: 16px 14px; }
+            .card-header { padding: 14px 16px; }
+            .profit-grid { grid-template-columns: 1fr; }
+            .costs-grid { grid-template-columns: 1fr; }
+            .logo { font-size: 1.6rem; }
+            thead th { font-size: 0.65rem; padding: 9px 6px; }
+            tbody td { padding: 6px 5px; }
+            tbody td input[type="number"] { font-size: 0.78rem; padding: 6px 6px; }
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="logo">
-            Calcul<span>Au</span>
+
+<header>
+    <div class="logo">Calcul<span class="au">Au</span></div>
+    <div class="tagline">Calculadora de Oro</div>
+</header>
+
+<div class="main">
+
+    <!-- Compra -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-icon buy">⬇️</div>
+            <div>
+                <div class="card-title">Compra</div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="field">
+                <label for="purchaseCount">Cantidad de barras</label>
+                <select id="purchaseCount" onchange="generateTable('purchase')">
+                    <option value="0">Seleccionar cantidad...</option>
+                    <option value="1">1 barra</option>
+                    <option value="2">2 barras</option>
+                    <option value="3">3 barras</option>
+                    <option value="4">4 barras</option>
+                    <option value="5">5 barras</option>
+                </select>
+            </div>
+            <div class="table-wrap" id="purchaseTableWrap">
+                <div class="empty-state">Selecciona la cantidad de barras para comenzar</div>
+            </div>
         </div>
     </div>
 
-    <div class="calculator">
-        <h2>Calculadora de Compra</h2>
-        <div class="form-group">
-            <label for="purchaseCount">Cantidad de barras a comprar:</label>
-            <select id="purchaseCount" onchange="generateTable('purchase')">
-                <option value="0">Seleccionar...</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-            </select>
+    <!-- Venta -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-icon sell">⬆️</div>
+            <div>
+                <div class="card-title">Venta</div>
+            </div>
         </div>
-        <table id="purchaseTable"></table>
-    </div>
-
-    <div class="calculator">
-        <h2>Calculadora de Venta</h2>
-        <div class="form-group">
-            <label for="saleCount">Cantidad de barras a vender:</label>
-            <select id="saleCount" onchange="generateTable('sale')">
-                <option value="0">Seleccionar...</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-            </select>
+        <div class="card-body">
+            <div class="field">
+                <label for="saleCount">Cantidad de barras</label>
+                <select id="saleCount" onchange="generateTable('sale')">
+                    <option value="0">Seleccionar cantidad...</option>
+                    <option value="1">1 barra</option>
+                    <option value="2">2 barras</option>
+                    <option value="3">3 barras</option>
+                    <option value="4">4 barras</option>
+                    <option value="5">5 barras</option>
+                </select>
+            </div>
+            <div class="table-wrap" id="saleTableWrap">
+                <div class="empty-state">Selecciona la cantidad de barras para comenzar</div>
+            </div>
         </div>
-        <table id="saleTable"></table>
     </div>
 
-    <div class="calculator">
-        <h2>Utilidad</h2>
-        <table>
-            <tr>
-                <th>Concepto</th>
-                <th>Valor</th>
-            </tr>
-            <tr>
-                <td>Utilidad Bruta</td>
-                <td id="grossProfit">$0.00</td>
-            </tr>
-            <tr>
-                <td>Costos de Fundición</td>
-                <td><input type="number" id="meltingCost" oninput="updateNetProfit()" placeholder="Ingrese costo de fundición"></td>
-            </tr>
-            <tr>
-                <td>Costos de Análisis</td>
-                <td><input type="number" id="analysisCost" oninput="updateNetProfit()" placeholder="Ingrese costo de análisis"></td>
-            </tr>
-            <tr>
-                <td>Costos de Transporte</td>
-                <td><input type="number" id="transportCost" oninput="updateNetProfit()" placeholder="Ingrese costo de transporte"></td>
-            </tr>
-            <tr>
-                <td>Comisiones</td>
-                <td><input type="number" id="commissionCost" oninput="updateNetProfit()" placeholder="Ingrese comisiones"></td>
-            </tr>
-            <tr>
-                <td>Utilidad Neta</td>
-                <td id="netProfit">$0.00</td>
-            </tr>
-        </table>
+    <!-- Utilidad -->
+    <div class="card">
+        <div class="card-header">
+            <div class="card-icon util">✦</div>
+            <div>
+                <div class="card-title">Utilidad</div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="profit-grid">
+                <div class="profit-display">
+                    <div class="pd-label">Utilidad Bruta</div>
+                    <div class="pd-value neutral" id="grossProfit">$0.00</div>
+                </div>
+                <div class="profit-display">
+                    <div class="pd-label">Utilidad Neta</div>
+                    <div class="pd-value neutral" id="netProfit">$0.00</div>
+                </div>
+            </div>
+
+            <div class="costs-grid">
+                <div class="cost-field field">
+                    <label for="meltingCost">Costo de Fundición</label>
+                    <input type="number" id="meltingCost" oninput="updateNetProfit()" placeholder="0">
+                </div>
+                <div class="cost-field field">
+                    <label for="analysisCost">Costo de Análisis</label>
+                    <input type="number" id="analysisCost" oninput="updateNetProfit()" placeholder="0">
+                </div>
+                <div class="cost-field field">
+                    <label for="transportCost">Costo de Transporte</label>
+                    <input type="number" id="transportCost" oninput="updateNetProfit()" placeholder="0">
+                </div>
+                <div class="cost-field field">
+                    <label for="commissionCost">Comisiones</label>
+                    <input type="number" id="commissionCost" oninput="updateNetProfit()" placeholder="0">
+                </div>
+            </div>
+        </div>
     </div>
 
-    <button class="clear-btn" onclick="clearFields()">Limpiar Campos</button>
+    <button class="btn-clear" onclick="clearFields()">
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 1l13 13M14 1L1 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+        Limpiar campos
+    </button>
 
-    <script>
-        const currencyFormatter = new Intl.NumberFormat('es-MX', {
-            style: 'currency',
-            currency: 'COP',
-            minimumFractionDigits: 2
-        });
+</div>
 
-        function generateTable(type) {
-            const count = parseInt(document.getElementById(`${type}Count`).value);
-            const table = document.getElementById(`${type}Table`);
-            table.innerHTML = '';
+<script>
+    const fmt = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 2 });
 
-            if (count > 0) {
-                table.innerHTML = `
-                    <tr>
-                        <th>#</th>
-                        <th>Gramos Brutos</th>
-                        <th>Pureza (%)</th>
-                        <th>Gramos Finos</th>
-                        <th>Precio ($/gramo fino)</th>
-                    </tr>
-                `;
+    function generateTable(type) {
+        const count = parseInt(document.getElementById(`${type}Count`).value);
+        const wrap = document.getElementById(`${type}TableWrap`);
 
-                for (let i = 1; i <= count; i++) {
-                    table.innerHTML += `
-                        <tr>
-                            <td>${i}</td>
-                            <td><input type="number" id="${type}Grams${i}" placeholder="Gramos" min="0" oninput="updateTotals('${type}')"></td>
-                            <td><input type="number" id="${type}Purity${i}" placeholder="Pureza" min="0" max="100" oninput="updateTotals('${type}')"></td>
-                            <td id="${type}FineGrams${i}">0</td>
-                            <td><input type="number" id="${type}Price${i}" placeholder="Precio" min="0" oninput="updateTotals('${type}')"></td>
-                        </tr>
-                    `;
-                }
-
-                table.innerHTML += `
-                    <tfoot>
-                        <tr>
-                            <td colspan="1">Totales:</td>
-                            <td id="${type}TotalGrams">0</td>
-                            <td id="${type}AveragePurity">0%</td>
-                            <td id="${type}TotalFineGrams">0</td>
-                            <td id="${type}TotalValue">$0.00</td>
-                        </tr>
-                    </tfoot>
-                `;
-            }
-
+        if (!count) {
+            wrap.innerHTML = '<div class="empty-state">Selecciona la cantidad de barras para comenzar</div>';
             updateTotals(type);
+            return;
         }
 
-        function updateTotals(type) {
-            const count = parseInt(document.getElementById(`${type}Count`).value);
-            let totalGrams = 0;
-            let totalFineGrams = 0;
-            let totalValue = 0;
-            let totalPurity = 0;
+        let html = `<table id="${type}Table">
+            <thead><tr>
+                <th>#</th>
+                <th>Gramos Brutos</th>
+                <th>Pureza (%)</th>
+                <th>Gramos Finos</th>
+                <th>Precio / g fino</th>
+            </tr></thead>
+            <tbody>`;
 
-            for (let i = 1; i <= count; i++) {
-                const grams = parseFloat(document.getElementById(`${type}Grams${i}`)?.value) || 0;
-                const purity = parseFloat(document.getElementById(`${type}Purity${i}`)?.value) || 0;
-                const price = parseFloat(document.getElementById(`${type}Price${i}`)?.value) || 0;
-
-                const fineGrams = round(grams * (purity / 100), 2);
-                document.getElementById(`${type}FineGrams${i}`).innerText = fineGrams;
-
-                totalGrams += grams;
-                totalFineGrams += fineGrams;
-                totalValue += fineGrams * price;
-                totalPurity += purity * grams;
-            }
-
-            const averagePurity = totalGrams > 0 ? (totalPurity / totalGrams) : 0;
-
-            document.getElementById(`${type}TotalGrams`).innerText = round(totalGrams, 2);
-            document.getElementById(`${type}AveragePurity`).innerText = `${round(averagePurity, 2)}%`;
-            document.getElementById(`${type}TotalFineGrams`).innerText = round(totalFineGrams, 2);
-            document.getElementById(`${type}TotalValue`).innerText = currencyFormatter.format(round(totalValue, 2));
-
-            calculateProfit();
+        for (let i = 1; i <= count; i++) {
+            html += `<tr>
+                <td class="row-num">${i}</td>
+                <td><input type="number" id="${type}Grams${i}" placeholder="g" min="0" oninput="updateTotals('${type}')"></td>
+                <td><input type="number" id="${type}Purity${i}" placeholder="%" min="0" max="100" oninput="updateTotals('${type}')"></td>
+                <td class="fine-grams-cell" id="${type}FineGrams${i}">—</td>
+                <td><input type="number" id="${type}Price${i}" placeholder="$" min="0" oninput="updateTotals('${type}')"></td>
+            </tr>`;
         }
 
-        function calculateProfit() {
-            const purchaseValue = parseFloat(document.getElementById('purchaseTotalValue')?.innerText.replace(/[^0-9.-]+/g, '')) || 0;
-            const saleValue = parseFloat(document.getElementById('saleTotalValue')?.innerText.replace(/[^0-9.-]+/g, '')) || 0;
-            const grossProfit = saleValue - purchaseValue;
+        html += `</tbody>
+            <tfoot><tr>
+                <td colspan="1" class="label-cell">Total</td>
+                <td id="${type}TotalGrams">—</td>
+                <td id="${type}AveragePurity">—</td>
+                <td id="${type}TotalFineGrams">—</td>
+                <td id="${type}TotalValue">—</td>
+            </tr></tfoot>
+        </table>`;
 
-            document.getElementById('grossProfit').innerText = currencyFormatter.format(grossProfit);
+        wrap.innerHTML = html;
+        updateTotals(type);
+    }
 
-            updateNetProfit();
+    function updateTotals(type) {
+        const count = parseInt(document.getElementById(`${type}Count`).value) || 0;
+        let totalGrams = 0, totalFineGrams = 0, totalValue = 0, weightedPurity = 0;
+
+        for (let i = 1; i <= count; i++) {
+            const grams   = parseFloat(document.getElementById(`${type}Grams${i}`)?.value)  || 0;
+            const purity  = parseFloat(document.getElementById(`${type}Purity${i}`)?.value)  || 0;
+            const price   = parseFloat(document.getElementById(`${type}Price${i}`)?.value)   || 0;
+            const fineGrams = round(grams * (purity / 100), 2);
+
+            const cell = document.getElementById(`${type}FineGrams${i}`);
+            if (cell) cell.textContent = grams || purity ? fineGrams : '—';
+
+            totalGrams     += grams;
+            totalFineGrams += fineGrams;
+            totalValue     += fineGrams * price;
+            weightedPurity += purity * grams;
         }
 
-        function updateNetProfit() {
-            const grossProfit = parseFloat(document.getElementById('grossProfit').innerText.replace(/[^0-9.-]+/g, '')) || 0;
-            const meltingCost = parseFloat(document.getElementById('meltingCost').value) || 0;
-            const analysisCost = parseFloat(document.getElementById('analysisCost').value) || 0;
-            const transportCost = parseFloat(document.getElementById('transportCost').value) || 0;
-            const commissionCost = parseFloat(document.getElementById('commissionCost').value) || 0;
+        const avgPurity = totalGrams > 0 ? (weightedPurity / totalGrams) : 0;
 
-            const netProfit = grossProfit - (meltingCost + analysisCost + transportCost + commissionCost);
+        const tg  = document.getElementById(`${type}TotalGrams`);
+        const tap = document.getElementById(`${type}AveragePurity`);
+        const tfg = document.getElementById(`${type}TotalFineGrams`);
+        const tv  = document.getElementById(`${type}TotalValue`);
 
-            document.getElementById('netProfit').innerText = currencyFormatter.format(netProfit);
-        }
+        if (tg)  tg.textContent  = totalGrams     ? round(totalGrams, 2)     : '—';
+        if (tap) tap.textContent = totalGrams      ? `${round(avgPurity, 2)}%` : '—';
+        if (tfg) tfg.textContent = totalFineGrams  ? round(totalFineGrams, 2) : '—';
+        if (tv)  tv.textContent  = totalValue      ? fmt.format(round(totalValue, 2)) : '—';
 
-        function round(value, decimals) {
-            return Math.round(value * Math.pow(10, decimals)) / Math.pow(10, decimals);
-        }
+        calculateProfit();
+    }
 
-        function clearFields() {
-            document.getElementById('purchaseCount').value = 0;
-            document.getElementById('saleCount').value = 0;
-            document.getElementById('purchaseTable').innerHTML = '';
-            document.getElementById('saleTable').innerHTML = '';
-            document.getElementById('profitResult').innerText = 'Utilidad: $0.00';
-            document.getElementById('grossProfit').innerText = '$0.00';
-            document.getElementById('netProfit').innerText = '$0.00';
-            document.getElementById('meltingCost').value = '';
-            document.getElementById('analysisCost').value = '';
-            document.getElementById('transportCost').value = '';
-            document.getElementById('commissionCost').value = '';
-        }
-    </script>
+    function calculateProfit() {
+        const rawPurchase = document.getElementById('purchaseTotalValue')?.textContent ?? '';
+        const rawSale     = document.getElementById('saleTotalValue')?.textContent ?? '';
+
+        const purchaseVal = parseFloat(rawPurchase.replace(/[^0-9.-]/g, '')) || 0;
+        const saleVal     = parseFloat(rawSale.replace(/[^0-9.-]/g, ''))     || 0;
+        const gross       = saleVal - purchaseVal;
+
+        const el = document.getElementById('grossProfit');
+        el.textContent = fmt.format(gross);
+        setValueColor(el, gross);
+
+        updateNetProfit();
+    }
+
+    function updateNetProfit() {
+        const rawGross   = document.getElementById('grossProfit').textContent;
+        const gross      = parseFloat(rawGross.replace(/[^0-9.-]/g, '')) || 0;
+        const melting    = parseFloat(document.getElementById('meltingCost').value)    || 0;
+        const analysis   = parseFloat(document.getElementById('analysisCost').value)   || 0;
+        const transport  = parseFloat(document.getElementById('transportCost').value)  || 0;
+        const commission = parseFloat(document.getElementById('commissionCost').value) || 0;
+        const net = gross - (melting + analysis + transport + commission);
+
+        const el = document.getElementById('netProfit');
+        el.textContent = fmt.format(net);
+        setValueColor(el, net);
+    }
+
+    function setValueColor(el, value) {
+        el.classList.remove('positive', 'negative', 'neutral');
+        if (value > 0)      el.classList.add('positive');
+        else if (value < 0) el.classList.add('negative');
+        else                el.classList.add('neutral');
+    }
+
+    function round(v, d) {
+        return Math.round(v * Math.pow(10, d)) / Math.pow(10, d);
+    }
+
+    function clearFields() {
+        ['purchaseCount', 'saleCount'].forEach(id => document.getElementById(id).value = 0);
+        ['purchaseTableWrap', 'saleTableWrap'].forEach(id => {
+            document.getElementById(id).innerHTML = '<div class="empty-state">Selecciona la cantidad de barras para comenzar</div>';
+        });
+        ['meltingCost', 'analysisCost', 'transportCost', 'commissionCost'].forEach(id => {
+            document.getElementById(id).value = '';
+        });
+        ['grossProfit', 'netProfit'].forEach(id => {
+            const el = document.getElementById(id);
+            el.textContent = '$0.00';
+            el.classList.remove('positive', 'negative');
+            el.classList.add('neutral');
+        });
+    }
+</script>
 </body>
 </html>
